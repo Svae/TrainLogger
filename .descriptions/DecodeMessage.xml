@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<block
+    name="DecodeMessage" 
+    uuid="_NXFbYX2nEeWZ0JOZTx4xKw" 
+    status="under construction" 
+    type="block" 
+    >
+    <required>
+        <block name="b0" uuid="_eOnYsVtTEeGtaPY7WHS-jQ"/>
+    </required>
+</block>

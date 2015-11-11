@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="no.ntnu.item.arctis.ARCTIS_RUNTIME_CONTAINER"/>
+	<classpathentry kind="con" path="no.ntnu.item.arctis.ARCTIS_DEPENDENCIES_CONTAINER"/>
+	<classpathentry kind="lib" path="/ntnu.no.rabbitamqp/lib/rabbitmq-client.jar"/>
+	<classpathentry kind="lib" path="/ntnu.no.rabbitamqp/lib/gson-2.4.jar"/>
+	<classpathentry kind="lib" path="lib/gson-2.4.jar"/>
+	<classpathentry kind="lib" path="lib/rabbitmq-client.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
