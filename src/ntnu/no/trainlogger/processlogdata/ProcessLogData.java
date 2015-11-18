@@ -11,10 +11,8 @@ import ntnu.no.trainlogger.delta.TrainInfo;
 
 public class ProcessLogData extends Block {
 	
-	private TrainDelta previousDelta;
 	private HashMap<Integer, TrainInfo> currentTrainInfos;
 	private HashMap<Integer, TrainInfo> sentTrainInfos;
-	private TrainDelta newDelta;
 	private boolean isStopping = false;
 	private int timeBetweenDeltas = 2000;
 	
@@ -57,6 +55,8 @@ public class ProcessLogData extends Block {
 		TrainDelta delta = new TrainDelta();
 		for (TrainInfo currentTrainInfo : currentTrainInfos.values()) {
 			if(sentTrainInfos.containsKey(currentTrainInfo.getId()) && currentTrainInfo.hasChanges(sentTrainInfos.get(currentTrainInfo.getId()))){
+				System.out.println("Current: " + currentTrainInfo);
+				System.out.println("SENT:    " + sentTrainInfos.get(currentTrainInfo.getId()));
 				delta.addTrainInfo(currentTrainInfo.getChanges(sentTrainInfos.get(currentTrainInfo.getId())));
 				sentTrainInfos.put(currentTrainInfo.getId(), currentTrainInfo);
 				
@@ -67,6 +67,13 @@ public class ProcessLogData extends Block {
 		}
 		delta.setTimeStamp(new Date());
 		return delta;
+	}
+	
+	private void printInfo(HashMap<Integer, TrainInfo> t){
+		for (TrainInfo ti : t.values()) {
+			System.out.println(ti);
+		}
+		
 	}
 	
 	public void stop(){

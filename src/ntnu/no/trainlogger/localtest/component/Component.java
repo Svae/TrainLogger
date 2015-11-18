@@ -14,7 +14,7 @@ public class Component extends Block {
 	}
 
 	public void printdelta(TrainDelta delta) {
-		printTrainInfo(delta.getTrains());
+		//printTrainInfo(delta.getTrains());
 	}
 	
 	private void printTrainInfo(HashMap<Integer, TrainInfo> trains) {

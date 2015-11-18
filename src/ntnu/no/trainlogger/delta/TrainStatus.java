@@ -4,9 +4,9 @@ import ntnu.no.trainlogger.enums.TrainState;
 
 public class TrainStatus {
 
-	private TrainState state;
-	private String toStation;
-	private String fromStation;
+	private TrainState state = TrainState.WAITING;
+	private String toStation = "";
+	private String fromStation = "";
 	
 	public TrainStatus(TrainState state) {
 		this.state = state;

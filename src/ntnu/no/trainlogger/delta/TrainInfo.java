@@ -68,6 +68,7 @@ public class TrainInfo implements Serializable{
 		if(other.getSpeed() != this.speed) changes.setSpeed(this.speed);
 		if(other.getTrainLength() != this.trainLength) changes.setTrainLength(this.trainLength);
 		if(this.status.hasStateChanges(other.getStatus())) changes.setStatus(this.status.getChanges(other.getStatus()));
+		System.out.println("Changes: " + changes);
 		return changes;
 	}
 	public TrainStatus getStatus() {
@@ -88,7 +89,7 @@ public class TrainInfo implements Serializable{
 	
 	@Override
 	public String toString() {
-		return String.format("Id: %d, Position: %d, Speed: %f \n Direction: %s \n %s", id, position, speed, direction ? "counterclockwise" : "clockwise", status.toString());
+		return String.format("Id: %d, Position: %d, Speed: %f Direction: %s %s", id, position, speed, direction ? "counterclockwise" : "clockwise", status.toString());
 	}
 
 	
