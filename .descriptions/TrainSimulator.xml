@@ -3,6 +3,7 @@
     name="TrainSimulator" 
     uuid="_boWvsIe6EeWfc_7wNzsFIQ" 
     status="under construction" 
+    session="multi_session" 
     type="block" 
     >
 </block>

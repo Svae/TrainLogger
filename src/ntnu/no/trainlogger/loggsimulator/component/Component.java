@@ -38,9 +38,11 @@ public class Component extends Block {
 			delta.addTrainInfo(ti);
 		}
 		inc++;
-		delta.setTimeStamp(new Date());
+		delta.setTimeStamp(System.currentTimeMillis());
 		return delta;
 	}
+
+	
 
 
 }

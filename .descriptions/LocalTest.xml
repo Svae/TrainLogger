@@ -8,8 +8,7 @@
     <required>
         <library path="lib/gson-2.4.jar"/>
         <library path="lib/rabbitmq-client.jar"/>
-        <block name="b0" uuid="_boWvsIe6EeWfc_7wNzsFIQ"/>
-        <block name="b1" uuid="_WtwuUX2QEeWZ0JOZTx4xKw"/>
+        <block name="b0" uuid="_XAfIYXNQEeWwSc-b3mUj5g"/>
         <block name="b2" uuid="_boWvsIe6EeWfc_7wNzsFIQ"/>
     </required>
 </block>

@@ -1,5 +1,5 @@
 package ntnu.no.trainlogger.enums;
 
 public enum TrainState {
-	RUNNING, STOPPING, STOPPED, WAITING, FAILED
+	RUNNING, STOPPING, STOPPED, WAITING, FAILED, NONE
 }

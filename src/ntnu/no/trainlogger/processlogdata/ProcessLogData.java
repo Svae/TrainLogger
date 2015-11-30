@@ -14,8 +14,10 @@ public class ProcessLogData extends Block {
 	private HashMap<Integer, TrainInfo> currentTrainInfos;
 	private HashMap<Integer, TrainInfo> sentTrainInfos;
 	private boolean isStopping = false;
-	private int timeBetweenDeltas = 2000;
-	
+	// Instance parameter. Edit only in overview page.
+	public final int timeBetweenDeltas;
+	// Instance parameter. Edit only in overview page.
+	public final int timeBetweenSynchronization;
 	public void updateDelta(TrainInfo trainInfo) {
 		addNewTrainInfo(trainInfo);
 	}
@@ -26,15 +28,22 @@ public class ProcessLogData extends Block {
 	public void init() {
 		currentTrainInfos = new HashMap<Integer, TrainInfo>();
 		sentTrainInfos = new HashMap<Integer, TrainInfo>();
+		makeDeltaProcessThread();
+		makeDeltaSyncThread();
 
+	}
+	
+	private void makeDeltaProcessThread(){
 		Runnable r = new Runnable() {
 			
 			@Override
 			public void run() {
 				TrainDelta delta = null;
 				while(!isStopping){
-					delta = generateDelta();
-					sendToBlock("DELTA", delta);
+					if(!currentTrainInfos.isEmpty()){
+						delta = generateDelta();
+						sendToBlock("DELTA", delta);
+					}
 					try {
 						Thread.sleep(timeBetweenDeltas);
 					} catch (InterruptedException e) {
@@ -46,37 +55,55 @@ public class ProcessLogData extends Block {
 		runAsync(r);
 	}
 	
-
-	public void setTimeBetweenDeltas(int delay){
-		timeBetweenDeltas = delay;
+	private void makeDeltaSyncThread(){
+		Runnable r = new Runnable() {
+			@Override
+			public void run() {
+				while(!isStopping){
+					if(!currentTrainInfos.isEmpty()){
+						TrainDelta delta = new TrainDelta();
+						for (TrainInfo ti : currentTrainInfos.values()) {
+							delta.addTrainInfo(ti);
+						}
+						delta.setTimeStamp(System.currentTimeMillis());
+						sendToBlock("SYNC", delta);
+					}
+					try{
+						Thread.sleep(timeBetweenSynchronization);
+					} catch(InterruptedException e){
+						logger.error(e.getMessage());
+					}
+				}
+				
+			}
+		};
+		runAsync(r);
 	}
 	
 	protected TrainDelta generateDelta() {
 		TrainDelta delta = new TrainDelta();
 		for (TrainInfo currentTrainInfo : currentTrainInfos.values()) {
-			if(sentTrainInfos.containsKey(currentTrainInfo.getId()) && currentTrainInfo.hasChanges(sentTrainInfos.get(currentTrainInfo.getId()))){
-				System.out.println("Current: " + currentTrainInfo);
-				System.out.println("SENT:    " + sentTrainInfos.get(currentTrainInfo.getId()));
-				delta.addTrainInfo(currentTrainInfo.getChanges(sentTrainInfos.get(currentTrainInfo.getId())));
-				sentTrainInfos.put(currentTrainInfo.getId(), currentTrainInfo);
-				
-			} else {
+			if(!sentTrainInfos.containsKey(currentTrainInfo.getId())){
 				sentTrainInfos.put(currentTrainInfo.getId(), currentTrainInfo);
 				delta.addTrainInfo(currentTrainInfo);
 			}
+			else if(currentTrainInfo.hasChanges(sentTrainInfos.get(currentTrainInfo.getId()))){		
+				delta.addTrainInfo(currentTrainInfo.getChanges(sentTrainInfos.get(currentTrainInfo.getId())));
+				sentTrainInfos.put(currentTrainInfo.getId(), currentTrainInfo);
+			} 
+				
 		}
-		delta.setTimeStamp(new Date());
+		delta.setTimeStamp(System.currentTimeMillis());	
 		return delta;
 	}
 	
-	private void printInfo(HashMap<Integer, TrainInfo> t){
-		for (TrainInfo ti : t.values()) {
-			System.out.println(ti);
-		}
-		
-	}
 	
 	public void stop(){
 		isStopping = true;
+	}
+	// Do not edit this constructor.
+	public ProcessLogData(int timeBetweenDeltas, int timeBetweenSynchronization) {
+	    this.timeBetweenDeltas = timeBetweenDeltas;
+	    this.timeBetweenSynchronization = timeBetweenSynchronization;
 	}
 }

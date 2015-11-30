@@ -4,7 +4,7 @@ import ntnu.no.trainlogger.enums.TrainState;
 
 public class TrainStatus {
 
-	private TrainState state = TrainState.WAITING;
+	private TrainState state = TrainState.NONE;
 	private String toStation = "";
 	private String fromStation = "";
 	
@@ -34,7 +34,7 @@ public class TrainStatus {
 	}
 	
 	public boolean hasStateChanges(TrainStatus other){
-		if(other.getState() != this.state || !other.getFromStation().equals(this.fromStation) || other.getToStation().equals(this.toStation)) return true;
+		if(other.getState() != this.state || !other.getFromStation().equals(this.fromStation) || !other.getToStation().equals(this.toStation)) return true;
 		return false;
 	}
 	
@@ -46,6 +46,14 @@ public class TrainStatus {
 		return changes;
 	}
 	
+	public String printChanges(){
+		StringBuilder sb = new StringBuilder();
+		if(state != TrainState.NONE)sb.append(" State: " + state);
+		if(!toStation.isEmpty())sb.append(" To: " + toStation);
+		if(!fromStation.isEmpty())sb.append(" From: " + fromStation);
+		return sb.toString();
+
+	}
 	@Override
 	public String toString() {
 		return String.format("State: %s To: %s From: %s", state.toString(), toStation, fromStation);

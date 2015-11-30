@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<block
+    name="LocalEventTest" 
+    uuid="_2UpKk5X8EeWZyIpmG9aXEw" 
+    status="under construction" 
+    type="system" 
+    >
+    <required>
+        <library path="lib/gson-2.4.jar"/>
+        <library path="lib/rabbitmq-client.jar"/>
+        <block name="b0" uuid="_XAfIYXNQEeWwSc-b3mUj5g"/>
+        <block name="b1" uuid="_IgoOIZXiEeWZyIpmG9aXEw"/>
+    </required>
+</block>

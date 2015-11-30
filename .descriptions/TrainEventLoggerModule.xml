@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<block
+    name="TrainEventLoggerModule" 
+    uuid="_NtrWcZYREeWZyIpmG9aXEw" 
+    status="under construction" 
+    type="system" 
+    >
+    <required>
+        <block name="b0" uuid="_IgoOIZXiEeWZyIpmG9aXEw"/>
+        <block name="b1" uuid="_XAfIYXNQEeWwSc-b3mUj5g"/>
+    </required>
+</block>

@@ -1,6 +1,7 @@
 package ntnu.no.trainlogger.delta;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +9,7 @@ import java.util.Map;
 public class TrainDelta implements Serializable{
 
 	private HashMap<Integer, TrainInfo> trains;
-	private Date timeStamp;
+	private long timeStamp;
 	
 	public TrainDelta() {
 		trains = new HashMap<Integer, TrainInfo>();
@@ -45,11 +46,12 @@ public class TrainDelta implements Serializable{
 		return changes;
 	}
 
-	public Date getTimeStamp() {
+		
+	public long getTimeStamp() {
 		return timeStamp;
 	}
 
-	public void setTimeStamp(Date timeStamp) {
+	public void setTimeStamp(long timeStamp) {
 		this.timeStamp = timeStamp;
 	}
 	

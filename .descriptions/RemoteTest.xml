@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<block
+    name="RemoteTest" 
+    uuid="_95AlAZO5EeWGoqcXHgfEzg" 
+    status="under construction" 
+    type="system" 
+    >
+    <required>
+        <block name="b0" uuid="_WtwuUX2QEeWZ0JOZTx4xKw"/>
+        <block name="b1" uuid="_XAfIYXNQEeWwSc-b3mUj5g"/>
+        <block name="b2" uuid="_boWvsIe6EeWfc_7wNzsFIQ"/>
+    </required>
+</block>
