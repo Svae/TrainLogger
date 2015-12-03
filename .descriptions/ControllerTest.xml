@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<block
+    name="ControllerTest" 
+    uuid="_WfIMk5eTEeWvSNbMxH1mnA" 
+    status="under construction" 
+    type="system" 
+    >
+    <required>
+        <library path="lib/gson-2.4.jar"/>
+        <block name="b0" uuid="_d1efIZd_EeWvSNbMxH1mnA"/>
+        <block name="b1" uuid="_GinQEJeUEeWvSNbMxH1mnA"/>
+    </required>
+</block>

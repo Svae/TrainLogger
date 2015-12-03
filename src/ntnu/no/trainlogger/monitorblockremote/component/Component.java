@@ -11,10 +11,14 @@ import ntnu.no.trainlogger.delta.TrainInfoUpdate;
 public class Component extends Block {
 	private Gson g = new Gson();
 	private String localTopic = "#";
+	private int i = 1;
 
 	public HashMap<AMQPProperties, String> initAMQP() {
+		logger.info("STARTING new session");
 		HashMap<AMQPProperties, String> p = new HashMap<>();
-		p.put(AMQPProperties.EXCHANGENAME, "logs");
+		p.put(AMQPProperties.EXCHANGENAME, "trainlogs");
+		p.put(AMQPProperties.USERNAME, "trainloger");
+		p.put(AMQPProperties.PASSWORD, "ntnutrains");
 		p.put(AMQPProperties.HOSTNAME, "localhost");
 		return p;
 	}
@@ -22,10 +26,15 @@ public class Component extends Block {
 	public void printTrainInfo(Message m) {
 		if(m.getEnvelope().getRoutingKey().contains("sync")){
 			TrainInfo ti = g.fromJson(m.getJsonBody(), TrainInfo.class);
-			System.out.println(ti);
-		} else{
+			logger.info("sync " + ti.toString());
+		} else if(m.getEnvelope().getRoutingKey().contains("new")){
+			logger.info("New test started - " + m.getJsonBody());
+		} else if(m.getEnvelope().getRoutingKey().contains("stop")){
+			sendToBlock("STOP");
+		}
+		else{
 			TrainInfoUpdate tu = g.fromJson(m.getJsonBody(), TrainInfoUpdate.class);
-			System.out.println(tu.printChanges());
+			logger.info(tu.toString());
 		}
 		
 	}
@@ -33,15 +42,25 @@ public class Component extends Block {
 	public void printTimeDifference(Message m) {
 		if(m.getEnvelope().getRoutingKey().contains("sync")){
 			TrainInfo ti = g.fromJson(m.getJsonBody(), TrainInfo.class);
-			System.out.println(ti.getTimeStamp() - System.currentTimeMillis());
-		} else{
+			logger.info(String.valueOf(System.currentTimeMillis() - ti.getTimeStamp()));
+		} else if(m.getEnvelope().getRoutingKey().contains("start")){
+			logger.info("New test started - " + m.getJsonBody() + " Current number of trains: " + i++);
+		} else if(m.getEnvelope().getRoutingKey().contains("stop")){
+			sendToBlock("STOP");
+		} else if(m.getEnvelope().getRoutingKey().contains("new")){
+			logger.info("New train added with id: " + m.getJsonBody());
+		}else{
 			TrainInfoUpdate tu = g.fromJson(m.getJsonBody(), TrainInfoUpdate.class);
-			System.out.println(tu.getTimeStamp() - System.currentTimeMillis());
+			logger.info(String.valueOf(System.currentTimeMillis() - tu.getTimeStamp()));
 		}
 		
 	}
 
 	public String getTopic() {
 		return localTopic;
+	}
+
+	public void stopp() {
+		logger.info("STOPPED monitor");
 	}
 }

@@ -34,6 +34,7 @@
       <ownedOperation xmi:id="_OAdHUJX3EeWZyIpmG9aXEw" name="toStationChange"/>
       <ownedOperation xmi:id="_OAgKoJX3EeWZyIpmG9aXEw" name="directionChange"/>
       <ownedOperation xmi:id="__Mz3YJX3EeWZyIpmG9aXEw" name="trainLengthChange"/>
+      <ownedOperation xmi:id="_BiIawJd-EeWvSNbMxH1mnA" name="handleCommand"/>
       <ownedParameter xmi:id="_IgoONpXiEeWZyIpmG9aXEw" name="init" type="_IgoOdJXiEeWZyIpmG9aXEw"/>
       <ownedParameter xmi:id="_IgoON5XiEeWZyIpmG9aXEw" name="trainInfo" type="_IgoOc5XiEeWZyIpmG9aXEw" direction="out" isStream="true"/>
       <ownedParameter xmi:id="_IgoOOJXiEeWZyIpmG9aXEw" name="startStop" type="_IgoOdJXiEeWZyIpmG9aXEw" isStream="true"/>

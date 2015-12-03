@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<block
+    name="CommandedEventSimulatorTest" 
+    uuid="_E-5mSJeKEeWvSNbMxH1mnA" 
+    status="under construction" 
+    type="system" 
+    >
+    <required>
+        <library path="lib/gson-2.4.jar"/>
+        <block name="b0" uuid="_d1efIZd_EeWvSNbMxH1mnA"/>
+    </required>
+</block>

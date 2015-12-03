@@ -1,6 +1,7 @@
 package ntnu.no.trainlogger.eventbasedtrainsimulator;
 
 import java.util.Random;
+
 import no.ntnu.item.arctis.runtime.Block;
 import ntnu.no.trainlogger.delta.TrainInfo;
 import ntnu.no.trainlogger.delta.TrainInfoUpdate;
@@ -31,10 +32,15 @@ public class EventBasedTrainSimulator extends Block {
 	public static String getAlias(int i) {
 		return String.valueOf(i);
 	}
-
+	
 	public void init(int i) {
 		accel = acceleration/10.0;
 		r = new Random();
+		running = true;
+		initTrain(i);
+	}
+	
+	private void initTrain(int i){
 		traininfo = new TrainInfo(i, r.nextInt(19) + 1);
 		TrainStatus ts = new TrainStatus(TrainState.RUNNING);
 		ts.setFromStation(stations[r.nextInt(4)]);
@@ -42,11 +48,11 @@ public class EventBasedTrainSimulator extends Block {
 		traininfo.setDirection(TrainDirection.COUNTERCLOCKWISE);
 		traininfo.setStatus(ts);
 		traininfo.setPosition(position);
-		running = true;
 		currentspeed = r.nextFloat() * 10 + 5;
 		setspeed = currentspeed;
 		traininfo.setSpeed(currentspeed);
 	}
+	
 
 	public void changeProperty() {
 		int i = (int) Math.round(r.nextGaussian()*2);
@@ -83,6 +89,7 @@ public class EventBasedTrainSimulator extends Block {
 				break;
 		}
 	}
+	
 
 	public void generateMovement() {
 		Runnable r = new Runnable() {
@@ -129,6 +136,7 @@ public class EventBasedTrainSimulator extends Block {
 
 	public TrainInfo getTrainInfo() {
 		traininfo.setPosition(position);
+		traininfo.incrementSequenceNumber();
 		traininfo.setTimeStamp(System.currentTimeMillis());
 		return running ? traininfo : null;
 	}

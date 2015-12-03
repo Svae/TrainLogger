@@ -11,19 +11,24 @@ import ntnu.no.trainlogger.delta.TrainInfoUpdate;
 import ntnu.no.trainlogger.delta.TrainInfoUpdateSerializer;
 
 public class Component extends Block {
-	private String remoteTopic = "train.info.";
+	private String remoteTopic = "train.log.";
 	private int trainId = 1;
-	private int numberOfTrains = 2;
+	private int numberOfTrains = 10;
 	private GsonBuilder gb;
 	private Gson g;
-
+	private HashMap<Integer, Integer> syncSeq;
+	private HashMap<Integer, Integer> updateSeq;
 	public HashMap<AMQPProperties, String> initRemoteAMQP() {
+		syncSeq = new HashMap<>();
+		updateSeq = new HashMap<>();
 		gb = new GsonBuilder();
 		gb.registerTypeAdapter(TrainInfoUpdate.class, new TrainInfoUpdateSerializer());
 		g = gb.create();
 		HashMap<AMQPProperties, String> p = new HashMap<>();
-		p.put(AMQPProperties.EXCHANGENAME, "logs");
-		p.put(AMQPProperties.HOSTNAME, "localhost");
+		p.put(AMQPProperties.EXCHANGENAME, "trainlogs");
+		p.put(AMQPProperties.HOSTNAME, "118.138.244.250");
+		p.put(AMQPProperties.PASSWORD, "ntnutrains");
+		p.put(AMQPProperties.USERNAME, "trainloger");
 		return p;
 	}
 
@@ -35,7 +40,40 @@ public class Component extends Block {
 		return new Message(remoteTopic.concat("update"), g.toJson(tu));
 	}
 
+	public void printTimeDifference(Message m) {
+		if(m.getEnvelope().getRoutingKey().contains("sync")){
+			TrainInfo ti = g.fromJson(m.getJsonBody(), TrainInfo.class);
+			logger.info(String.valueOf(System.currentTimeMillis()-ti.getTimeStamp()));
+		} else{
+			TrainInfoUpdate tu = g.fromJson(m.getJsonBody(), TrainInfoUpdate.class);
+			logger.info(String.valueOf(System.currentTimeMillis() - tu.getTimeStamp()));
+		}
+		
+	}
+	
+	public void checkSequenceNumber(Message m){
+		if(m.getEnvelope().getRoutingKey().contains("sync")){
+			TrainInfo ti = g.fromJson(m.getJsonBody(), TrainInfo.class);
+			logger.info(String.valueOf(System.currentTimeMillis()-ti.getTimeStamp()));
+
+			if(ti.getSequenceNumber() != syncSeq.get(ti.getId())){
+				logger.error("Expected packet with seqnr. " + syncSeq.get(ti.getId()) + " got " + ti.getSequenceNumber());
+			}
+			syncSeq.put(ti.getId(), ti.getSequenceNumber() + 1);
+		} else{
+			TrainInfoUpdate tu = g.fromJson(m.getJsonBody(), TrainInfoUpdate.class);
+			logger.info(String.valueOf(System.currentTimeMillis() - tu.getTimeStamp()));
+			if(tu.getSequenceNumber() != updateSeq.get(tu.getId())){
+				logger.error("Expected packet with seqnr. " + syncSeq.get(tu.getId()) + " got " + tu.getSequenceNumber());
+			}
+			updateSeq.put(tu.getId(), tu.getSequenceNumber() + 1);
+		}
+
+	}
+	
 	public int giveId() {
+		syncSeq.put(trainId, 1);
+		updateSeq.put(trainId, 0);
 		return trainId++;
 	}
 
@@ -45,5 +83,17 @@ public class Component extends Block {
 
 	public String getLocalTopic() {
 		return remoteTopic.concat("*");
+	}
+
+	public void error(String e) {
+		logger.error(e);
+	}
+
+	public Message sendGreeting() {
+		return new Message("start", "Some properties");
+	}
+
+	public Message sendNewTrain(int id) {
+		return new Message("new", id);
 	}
 }
