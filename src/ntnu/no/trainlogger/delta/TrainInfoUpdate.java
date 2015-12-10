@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.HashMap;
 
 import ntnu.no.trainlogger.enums.TrainDirection;
+import ntnu.no.trainlogger.enums.TrainEventType;
 import ntnu.no.trainlogger.enums.TrainState;
 
 public class TrainInfoUpdate {
@@ -17,17 +18,26 @@ public class TrainInfoUpdate {
 	private String fromStation = "";
 	private long timeStamp;
 	private int sequenceNumber;
+	private TrainEventType event;
 	
 	public TrainInfoUpdate(int id) {
 		this.id = id;
 	}
 	
-	public TrainInfoUpdate(int id, long timeStamp, int sequenceNumber) {
+	public TrainInfoUpdate(int id, long timeStamp, int sequenceNumber, TrainEventType event) {
 		this.timeStamp = timeStamp;
 		this.sequenceNumber = sequenceNumber;
 		this.id = id;
+		this.event = event;
 	}
 	
+	public TrainEventType getEvent(){
+		return event;
+	}
+	
+	public void setEvent(TrainEventType event){
+		this.event = event;
+	}
 	
 	public int getId() {
 		return id;

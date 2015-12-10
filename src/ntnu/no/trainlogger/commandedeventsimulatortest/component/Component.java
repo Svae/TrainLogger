@@ -39,7 +39,7 @@ public class Component extends Block {
 			public void run() {
 				while(true){
 					try{
-					    BufferedReader bufferRead = new BufferedReader(new InputStreamReader( tem.in));
+					    BufferedReader bufferRead = new BufferedReader(new InputStreamReader( System.in));
 					    String s = bufferRead.readLine();
 					    if(s.equals("EXIT")){
 					    	sendToBlock("STOP");
@@ -62,7 +62,7 @@ public class Component extends Block {
 		String[] p = s.split(",");
 		switch (p[0]) {
 		case "RANDOM":
-			sendToBlock("RANDOM", p[1]);
+			sendToBlock("RANDOM", Integer.parseInt(p[1]));
 			break;
 		case "STOPTRAINSIM":
 			sendToBlock("STOPTRAIN", p[1]);

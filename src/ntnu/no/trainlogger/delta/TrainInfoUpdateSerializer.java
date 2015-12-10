@@ -18,6 +18,7 @@ public class TrainInfoUpdateSerializer implements JsonSerializer<TrainInfoUpdate
 		jsonObject.addProperty("id", ti.getId());
 		jsonObject.addProperty("timeStamp", ti.getTimeStamp());
 		jsonObject.addProperty("sequenceNumber", ti.getSequenceNumber());
+		jsonObject.addProperty("event", ti.getEvent().toString());
 		if(ti.getSpeed() != 0) jsonObject.addProperty("speed", ti.getSpeed());
 		if(ti.getDirection() != null) jsonObject.addProperty("direction", ti.getDirection().toString());
 		if(!ti.getFromStation().isEmpty()) jsonObject.addProperty("fromStation", ti.getFromStation());

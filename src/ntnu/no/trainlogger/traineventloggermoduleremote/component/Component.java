@@ -13,14 +13,12 @@ import ntnu.no.trainlogger.delta.TrainInfoUpdateSerializer;
 public class Component extends Block {
 	private String remoteTopic = "train.log.";
 	private int trainId = 1;
-	private int numberOfTrains = 10;
+	private int numberOfTrains = 50;
 	private GsonBuilder gb;
 	private Gson g;
 	private HashMap<Integer, Integer> syncSeq;
 	private HashMap<Integer, Integer> updateSeq;
 	public HashMap<AMQPProperties, String> initRemoteAMQP() {
-		syncSeq = new HashMap<>();
-		updateSeq = new HashMap<>();
 		gb = new GsonBuilder();
 		gb.registerTypeAdapter(TrainInfoUpdate.class, new TrainInfoUpdateSerializer());
 		g = gb.create();
@@ -72,8 +70,6 @@ public class Component extends Block {
 	}
 	
 	public int giveId() {
-		syncSeq.put(trainId, 1);
-		updateSeq.put(trainId, 0);
 		return trainId++;
 	}
 
@@ -90,10 +86,14 @@ public class Component extends Block {
 	}
 
 	public Message sendGreeting() {
-		return new Message("start", "Some properties");
+		return new Message("start", "Flow test, new train every 2 second, 1 min wait for every 10th train, max 200");
 	}
 
 	public Message sendNewTrain(int id) {
-		return new Message("new", id);
+		return new Message("trainstart", id);
+	}
+	
+	public boolean extendedWait(){
+		return trainId%10 == 0;
 	}
 }

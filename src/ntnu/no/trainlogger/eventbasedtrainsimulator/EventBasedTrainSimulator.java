@@ -7,6 +7,7 @@ import ntnu.no.trainlogger.delta.TrainInfo;
 import ntnu.no.trainlogger.delta.TrainInfoUpdate;
 import ntnu.no.trainlogger.delta.TrainStatus;
 import ntnu.no.trainlogger.enums.TrainDirection;
+import ntnu.no.trainlogger.enums.TrainEventType;
 import ntnu.no.trainlogger.enums.TrainState;
 
 public class EventBasedTrainSimulator extends Block {
@@ -166,37 +167,37 @@ public class EventBasedTrainSimulator extends Block {
 	}
 
 	public TrainInfoUpdate speedChange() {
-		TrainInfoUpdate td= new TrainInfoUpdate(traininfo.getId(), System.currentTimeMillis(), deltaSequenceNumber++);
+		TrainInfoUpdate td= new TrainInfoUpdate(traininfo.getId(), System.currentTimeMillis(), deltaSequenceNumber++, TrainEventType.SPEED);
 		td.setSpeed(currentspeed);
 		return td;
 	}
 	
 	public TrainInfoUpdate stateChange() {
-		TrainInfoUpdate td= new TrainInfoUpdate(traininfo.getId(), System.currentTimeMillis(), deltaSequenceNumber++);
+		TrainInfoUpdate td= new TrainInfoUpdate(traininfo.getId(), System.currentTimeMillis(), deltaSequenceNumber++, TrainEventType.STATE);
 		td.setState(traininfo.getStatus().getState());
 		return td;
 	}
 	
 	public TrainInfoUpdate directionChange(){
-		TrainInfoUpdate td= new TrainInfoUpdate(traininfo.getId(), System.currentTimeMillis(), deltaSequenceNumber++);
+		TrainInfoUpdate td= new TrainInfoUpdate(traininfo.getId(), System.currentTimeMillis(), deltaSequenceNumber++, TrainEventType.DIRECTION);
 		td.setDirection(traininfo.getDirection());
 		return td;
 	}
 	
 	public TrainInfoUpdate toStationChange(){
-		TrainInfoUpdate td= new TrainInfoUpdate(traininfo.getId(), System.currentTimeMillis(), deltaSequenceNumber++);
+		TrainInfoUpdate td= new TrainInfoUpdate(traininfo.getId(), System.currentTimeMillis(), deltaSequenceNumber++, TrainEventType.TO);
 		td.setToStation(traininfo.getStatus().getToStation());
 		return td;
 	}
 	
 	public TrainInfoUpdate fromStationChange(){
-		TrainInfoUpdate td = new TrainInfoUpdate(traininfo.getId(), System.currentTimeMillis(), deltaSequenceNumber++);
+		TrainInfoUpdate td = new TrainInfoUpdate(traininfo.getId(), System.currentTimeMillis(), deltaSequenceNumber++, TrainEventType.FROM);
 		td.setFromStation(traininfo.getStatus().getFromStation());
 		return td;
 	}
 	
 	public TrainInfoUpdate trainLengthChange(){
-		TrainInfoUpdate td= new TrainInfoUpdate(traininfo.getId(), System.currentTimeMillis(), deltaSequenceNumber++);
+		TrainInfoUpdate td= new TrainInfoUpdate(traininfo.getId(), System.currentTimeMillis(), deltaSequenceNumber++, TrainEventType.LENGTH);
 		td.setTrainLength(traininfo.getTrainLength());
 		return td;
 	}

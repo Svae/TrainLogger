@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<block
+    name="MonitorBlockLocal" 
+    uuid="_dD1dG558EeWSuN3Tu9Ex4g" 
+    status="under construction" 
+    type="system" 
+    >
+    <required>
+        <block name="b0" uuid="_XAfIYXNQEeWwSc-b3mUj5g"/>
+    </required>
+</block>
